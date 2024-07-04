@@ -7,7 +7,7 @@ const ReadingSummary = ({ books }) => {
   useEffect(() => {
     const fetchGenres = async () => {
       const booksWithGenres = await Promise.all(
-        books.map(async book => {
+        books.map(async (book) => {
           const genres = await fetchBookGenres(book.Title, book.Author);
           return { ...book, genres };
         })
@@ -20,23 +20,31 @@ const ReadingSummary = ({ books }) => {
 
   const getTopRatedBooks = (books) => {
     return books
-      .filter(book => parseInt(book['My Rating']) === 5)
+      .filter((book) => parseInt(book['My Rating']) === 5)
       .sort((a, b) => new Date(b['Date Read']) - new Date(a['Date Read']))
       .slice(0, 5);
   };
 
   const determineReaderArchetype = (books) => {
     const genreCount = {};
-    books.forEach(book => {
-      book.genres.forEach(genre => {
-        genreCount[genre] = (genreCount[genre] || 0) + 1;
-      });
+    books.forEach((book) => {
+      if (book.genres) {
+        book.genres.forEach((genre) => {
+          genreCount[genre] = (genreCount[genre] || 0) + 1;
+        });
+      }
     });
+
     const sortedGenres = Object.keys(genreCount).sort((a, b) => genreCount[b] - genreCount[a]);
     if (sortedGenres.length > 4) {
       return 'It\'s Giving Range!';
     }
+
     const topGenre = sortedGenres[0];
+    if (!topGenre) {
+      return 'Avid Reader'; // Default archetype if no genre is found
+    }
+
     switch (topGenre.toLowerCase()) {
       case 'romance':
         return 'Hopeless Romantic';
@@ -60,8 +68,10 @@ const ReadingSummary = ({ books }) => {
       <p>Archetype: {archetype}</p>
       <h3>Top 5 Recent 5-Star Books:</h3>
       <ul>
-        {topBooks.map(book => (
-          <li key={book['Book Id']}>{book['Title']} by {book['Author']}</li>
+        {topBooks.map((book) => (
+          <li key={book['Book Id']}>
+            {book['Title']} by {book['Author']}
+          </li>
         ))}
       </ul>
     </div>
