@@ -2,21 +2,25 @@ import React from 'react';
 import Papa from 'papaparse';
 
 const CSVUpload = ({ onDataParsed }) => {
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
     if (file) {
       Papa.parse(file, {
         header: true,
-        complete: (results) => {
-          onDataParsed(results.data);
-        },
+        skipEmptyLines: true,
+        complete: (result) => onDataParsed(result.data),
       });
     }
   };
 
   return (
-    <div>
-      <input type="file" accept=".csv" onChange={handleFileUpload} />
+    <div className="CSVUpload">
+      <input
+        type="file"
+        accept=".csv"
+        onChange={handleFileUpload}
+        aria-label="Upload your Goodreads CSV file"
+      />
     </div>
   );
 };

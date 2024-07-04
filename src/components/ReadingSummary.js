@@ -1,50 +1,44 @@
-import React, { useState } from 'react';
-import { CSVReader } from 'react-csv-reader';
+import React from 'react';
 
-const ReadingSummary = ({ books, onDataParsed }) => {
-  const [archetype, setArchetype] = useState('');
-  const [totalBooks, setTotalBooks] = useState(0);
+const ReadingSummary = ({ books }) => {
+  const getTopRatedBooks = (books) => {
+    return books
+      .filter(book => parseInt(book['My Rating']) === 5)
+      .sort((a, b) => new Date(b['Date Read']) - new Date(a['Date Read']))
+      .slice(0, 5);
+  };
 
-  // Function to determine the reader archetype
-  const determineReaderArchetype = (bookCount) => {
-    if (bookCount >= 50) {
-      return 'Book Monster';
-    } else if (bookCount >= 30) {
-      return 'Book Obsessive';
-    } else if (bookCount >= 15) {
-      return 'Avid Reader';
-    } else if (bookCount >= 5) {
-      return 'Casual Reader';
-    } else {
+  const determineReaderArchetype = (books) => {
+    const bookCount = books.length;
+
+    if (bookCount < 10) {
+      return '...Does this even count as reading?';
+    } else if (bookCount < 50) {
       return 'Newbie Reader';
+    } else if (bookCount < 100) {
+      return 'This is starting to become a problem, hun x';
+    } else if (bookCount < 200) {
+      return 'Eat, Read, Repeat!';
+    } else {
+      return 'Seek help, immediately..';
     }
   };
 
-  // Handle CSV file reading
-  const handleCSVLoad = (data) => {
-    // Extract the number of books from CSV data
-    const bookCount = data.length;  // Each row represents one book
-    setTotalBooks(bookCount);
-
-    // Determine the reader archetype
-    const readerArchetype = determineReaderArchetype(bookCount);
-    setArchetype(readerArchetype);
-
-    // Pass the parsed data to the parent component
-    onDataParsed(data);
-  };
+  const topBooks = getTopRatedBooks(books);
+  const archetype = determineReaderArchetype(books);
 
   return (
     <div>
       <h2>Your Reading Summary</h2>
-      <CSVReader
-        onFileLoaded={(data) => handleCSVLoad(data)}
-        onError={(error) => console.error('Error reading CSV:', error)}
-        onSubmit={(data) => handleCSVLoad(data)}
-        parserOptions={{ header: true }}
-      />
       <p>Archetype: {archetype}</p>
-      <p>Total Books Read: {totalBooks}</p>
+      <h3>Top 5 Recent 5-Star Books:</h3>
+      <ul>
+        {topBooks.map((book, index) => (
+          <li key={index}>
+            {book['Title']} by {book['Author']}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

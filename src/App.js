@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
+import CSVUpload from './components/CSVUpload';
 import ReadingSummary from './components/ReadingSummary';
 
 function App() {
   const [books, setBooks] = useState([]);
 
-  // Handle the data parsed from CSV
   const handleDataParsed = (data) => {
     setBooks(data);
   };
@@ -13,9 +13,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Goodreads Wrapped</h1>
+        <h1>Reading Wrapped</h1>
       </header>
-      <ReadingSummary books={books} onDataParsed={handleDataParsed} />
+      <CSVUpload onDataParsed={handleDataParsed} />
+      {books.length > 0 && <ReadingSummary books={books} />}
     </div>
   );
 }
