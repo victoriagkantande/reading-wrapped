@@ -1,6 +1,6 @@
 # Reading Wrapped
 
-**Reading Wrapped** is a web application designed to generate a personalized reading summary based on your Goodreads reading data. It helps you reflect on your reading habits, discover your reader archetype, and view your top-rated books.
+**Reading Wrapped** is a web application designed to generate a personalised reading summary based on your Goodreads reading data. It helps you reflect on your reading habits, discover your reader archetype, and view your top-rated books.
 
 ## Features
 
