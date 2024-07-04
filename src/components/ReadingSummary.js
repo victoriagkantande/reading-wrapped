@@ -1,6 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { fetchBookGenres } from '../services/googleBooks';
 
 const ReadingSummary = ({ books }) => {
+  const [booksWithGenres, setBooksWithGenres] = useState([]);
+
+  useEffect(() => {
+    const fetchGenres = async () => {
+      const booksWithGenres = await Promise.all(
+        books.map(async book => {
+          const genres = await fetchBookGenres(book.Title, book.Author);
+          return { ...book, genres };
+        })
+      );
+      setBooksWithGenres(booksWithGenres);
+    };
+
+    fetchGenres();
+  }, [books]);
+
   const getTopRatedBooks = (books) => {
     return books
       .filter(book => parseInt(book['My Rating']) === 5)
@@ -11,19 +28,16 @@ const ReadingSummary = ({ books }) => {
   const determineReaderArchetype = (books) => {
     const genreCount = {};
     books.forEach(book => {
-      const genre = book['Bookshelves'];
-      if (genre) {
-        genre.split(', ').forEach(g => {
-          genreCount[g] = (genreCount[g] || 0) + 1;
-        });
-      }
+      book.genres.forEach(genre => {
+        genreCount[genre] = (genreCount[genre] || 0) + 1;
+      });
     });
     const sortedGenres = Object.keys(genreCount).sort((a, b) => genreCount[b] - genreCount[a]);
     if (sortedGenres.length > 4) {
       return 'It\'s Giving Range!';
     }
     const topGenre = sortedGenres[0];
-    switch (topGenre) {
+    switch (topGenre.toLowerCase()) {
       case 'romance':
         return 'Hopeless Romantic';
       case 'fantasy':
@@ -31,14 +45,14 @@ const ReadingSummary = ({ books }) => {
       case 'mystery':
         return 'Mystery Maven';
       case 'non-fiction':
-        return 'Non-fiction Babe';
+        return 'Non-fiction Nerd';
       default:
         return 'Avid Reader';
     }
   };
 
-  const topBooks = getTopRatedBooks(books);
-  const archetype = determineReaderArchetype(books);
+  const topBooks = getTopRatedBooks(booksWithGenres);
+  const archetype = determineReaderArchetype(booksWithGenres);
 
   return (
     <div>
