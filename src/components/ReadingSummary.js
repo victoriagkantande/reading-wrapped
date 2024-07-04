@@ -26,33 +26,16 @@ const ReadingSummary = ({ books }) => {
   };
 
   const determineReaderArchetype = (books) => {
-    const genreCount = {};
-    books.forEach((book) => {
-      if (book.genres) {
-        book.genres.forEach((genre) => {
-          genreCount[genre] = (genreCount[genre] || 0) + 1;
-        });
-      }
-    });
+    // Count the number of 5-star romance books
+    const romanceBooksCount = books.filter(
+      (book) => parseInt(book['My Rating']) === 5 && book.genres && book.genres.includes('Romance')
+    ).length;
 
-    const sortedGenres = Object.keys(genreCount).sort((a, b) => genreCount[b] - genreCount[a]);
-    const topGenre = sortedGenres[0];
-    if (!topGenre) {
-      return 'Avid Reader'; // Default archetype if no genre is found
+    if (romanceBooksCount >= 10) {
+      return 'Hopeless Romantic';
     }
 
-    switch (topGenre.toLowerCase()) {
-      case 'romance':
-        return 'Hopeless Romantic';
-      case 'fantasy':
-        return 'Fantasy Fanatic';
-      case 'mystery':
-        return 'Mystery Maven';
-      case 'non-fiction':
-        return 'Non-fiction Nerd';
-      default:
-        return 'Avid Reader';
-    }
+    return 'Avid Reader'; // Default archetype if fewer than 10 5-star romance books
   };
 
   const topBooks = getTopRatedBooks(booksWithGenres);
