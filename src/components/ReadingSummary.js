@@ -1,28 +1,46 @@
-const determineReaderArchetype = (topBooks) => {
+import React, { useEffect, useState } from 'react';
+import { fetchBookGenres } from '../services/googleBooks';
+
+const ReadingSummary = ({ books }) => {
+  const [booksWithGenres, setBooksWithGenres] = useState([]);
+
+  useEffect(() => {
+    const fetchGenres = async () => {
+      const booksWithGenres = await Promise.all(
+        books.map(async (book) => {
+          const genres = await fetchBookGenres(book.Title, book.Author);
+          return { ...book, genres };
+        })
+      );
+      setBooksWithGenres(booksWithGenres);
+    };
+
+    fetchGenres();
+  }, [books]);
+
+  const getTopRatedBooks = (books) => {
+    return books
+      .filter((book) => parseInt(book['My Rating']) === 5)
+      .sort((a, b) => new Date(b['Date Read']) - new Date(a['Date Read']))
+      .slice(0, 5);
+  };
+
+  const determineReaderArchetype = (books) => {
     const genreCount = {};
-    topBooks.forEach((book) => {
-      console.log('Genres for book', book.Title, ':', book.genres);
+    books.forEach((book) => {
       if (book.genres) {
         book.genres.forEach((genre) => {
           genreCount[genre] = (genreCount[genre] || 0) + 1;
         });
       }
     });
-  
-    console.log('Genre count:', genreCount);
-  
+
     const sortedGenres = Object.keys(genreCount).sort((a, b) => genreCount[b] - genreCount[a]);
-    console.log('Sorted genres:', sortedGenres);
-  
-    if (sortedGenres.length > 4) {
-      return 'It\'s Giving Range!';
-    }
-  
     const topGenre = sortedGenres[0];
     if (!topGenre) {
       return 'Avid Reader'; // Default archetype if no genre is found
     }
-  
+
     switch (topGenre.toLowerCase()) {
       case 'romance':
         return 'Hopeless Romantic';
@@ -37,4 +55,23 @@ const determineReaderArchetype = (topBooks) => {
     }
   };
 
-  export default ReadingSummary;
+  const topBooks = getTopRatedBooks(booksWithGenres);
+  const archetype = determineReaderArchetype(booksWithGenres);
+
+  return (
+    <div>
+      <h2>Your Reading Summary</h2>
+      <p>Archetype: {archetype}</p>
+      <h3>Top 5 Recent 5-Star Books:</h3>
+      <ul>
+        {topBooks.map((book) => (
+          <li key={book['Book Id']}>
+            {book['Title']} by {book['Author']}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default ReadingSummary;
