@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# Reading Wrapped
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Reading Wrapped** is a web application designed to generate a personalized reading summary based on your Goodreads reading data. It helps you reflect on your reading habits, discover your reader archetype, and view your top-rated books.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **CSV File Upload**: Upload your Goodreads CSV file to parse and analyse your reading data.
+- **Reading Archetype**: Discover your reader archetype based on the number of books you've read.
+- **Top 5 Recent 5-Star Books**: View a list of your top 5 most recent 5-star books.
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend**: React, PapaParse
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To run this project locally, follow these steps:
 
-### `npm run build`
+1. **Clone the Repository:**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    ```bash
+    git clone https://github.com/your-username/reading-wrapped.git
+    cd reading-wrapped
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Install Dependencies:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    ```bash
+    npm install
+    ```
 
-### `npm run eject`
+3. **Start the Development Server:**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    ```bash
+    npm start
+    ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    This will start the development server at `http://localhost:3000`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Usage
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Upload Your Goodreads CSV File:**
+   - Click on the file input to select and upload your Goodreads CSV file.
 
-## Learn More
+2. **View Your Reading Summary:**
+   - After uploading the file, you will see your reading archetype and a list of your top 5 most recent 5-star books.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Acknowledgments
 
-### Code Splitting
+- **PapaParse** for CSV parsing
+- **React** for building the user interface
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Contact
 
-### Analyzing the Bundle Size
+For any questions or feedback, you can reach me at:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **Email:** your-email@example.com
+- **GitHub:** [your-username](https://github.com/your-username)
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Thank you
