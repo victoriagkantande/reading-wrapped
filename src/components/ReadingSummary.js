@@ -25,9 +25,9 @@ const ReadingSummary = ({ books }) => {
       .slice(0, 5);
   };
 
-  const determineReaderArchetype = (books) => {
+  const determineReaderArchetype = (topBooks) => {
     const genreCount = {};
-    books.forEach((book) => {
+    topBooks.forEach((book) => {
       if (book.genres) {
         book.genres.forEach((genre) => {
           genreCount[genre] = (genreCount[genre] || 0) + 1;
@@ -60,7 +60,7 @@ const ReadingSummary = ({ books }) => {
   };
 
   const topBooks = getTopRatedBooks(booksWithGenres);
-  const archetype = determineReaderArchetype(booksWithGenres);
+  const archetype = determineReaderArchetype(topBooks);
 
   return (
     <div>
